@@ -1,6 +1,5 @@
 install.packages(c("tidyverse", "tidytext", "textdata", "wordcloud", "RColorBrewer"))
 
-
 library(tidyverse)
 library(tidytext)
 library(textdata)
@@ -9,7 +8,7 @@ library(RColorBrewer)
 
 
 reviews <- tibble::tibble(
-  review_id = 1:8,
+  review_id = 1:30,
   review_text = c(
     "The product quality is amazing, I love it!",
     "Terrible experience, waste of money.",
@@ -18,7 +17,29 @@ reviews <- tibble::tibble(
     "Worst product ever, very disappointed.",
     "Decent product for the price. Could be better.",
     "Excellent quality, fast delivery, very satisfied!",
-    "The product stopped working after two days."
+    "The product stopped working after two days.",
+    "Amazing performance and great value for money.",
+    "Not worth the hype, totally useless.",
+    "Good product overall, but packaging was poor.",
+    "I loved it at first, but later it stopped working.",
+    "Very bad experience, never buying again.",
+    "Perfect fit and excellent build quality.",
+    "Average performance, nothing impressive.",
+    "Horrible customer service and cheap material.",
+    "Highly recommended! Works as described.",
+    "Too expensive for the quality offered.",
+    "Satisfied with the product, happy purchase.",
+    "Stopped working after a week, disappointed.",
+    "Value for money, works as expected.",
+    "Not good, not bad, just average.",
+    "Excellent performance and durable quality.",
+    "Poor quality and late delivery.",
+    "Superb features, loved using it daily.",
+    "Worst decision ever, totally regret buying.",
+    "Affordable and reliable product.",
+    "Useless and frustrating experience.",
+    "Great quality, but delivery was delayed.",
+    "Just okay, nothing special about it."
   )
 )
 
@@ -39,6 +60,7 @@ sentiment_data <- tidy_reviews %>%
   count(review_id, sentiment) %>%
   pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>%
   mutate(sentiment_score = positive - negative)
+
 
 final_reviews <- reviews %>%
   left_join(sentiment_data, by = "review_id") %>%
@@ -77,3 +99,4 @@ wordcloud(
   colors = brewer.pal(8, "Dark2"),
   random.order = FALSE
 )
+
